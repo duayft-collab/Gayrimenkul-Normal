@@ -8,6 +8,7 @@ import Radar from './pages/Radar';
 import LocationWatch from './pages/LocationWatch';
 import LeaseIntelligence from './pages/LeaseIntelligence';
 import KatKarsiligi from './pages/KatKarsiligi';
+import Anayasa from './pages/Anayasa';
 import { Sidebar, Toasts, Modal, VersionBar } from './components/Layout';
 
 function PlaceholderPage({ title, icon }) {
@@ -37,6 +38,8 @@ const PAGES = {
   radar:        Radar,
   location:     LocationWatch,
   lease:        LeaseIntelligence,
+  anayasa:      Anayasa,
+  settings:     ()=><PlaceholderPage title="Genel Ayarlar" icon="⚙️"/>,
 };
 
 export default function App() {

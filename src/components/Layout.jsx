@@ -31,6 +31,10 @@ const NAV = [
   { section: 'SİSTEM', items: [
     { id:'users', label:'Kullanıcılar', icon:'👥' },
   ]},
+  { section: 'AYARLAR', items: [
+    { id:'settings', label:'Genel Ayarlar', icon:'⚙️' },
+    { id:'anayasa', label:'Anayasa', icon:'⚖️' },
+  ]},
 ];
 
 export function Sidebar() {
