@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useStore } from '../store/app';
-import { Topbar, TickerBar } from '../components/Layout';
+import { Topbar } from '../components/Layout';
+import MarketTicker from '../components/MarketTicker';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
 import { seedTestData } from '../core/seedData';
 import { odemeTlKurus, gecikmisFiltre, yaklasanFiltre } from '../core/odemelerDb';
@@ -85,7 +86,7 @@ export default function Dashboard() {
   return (
     <div>
       <Topbar title="Dashboard" />
-      <TickerBar />
+      <MarketTicker />
       <div className="page" style={{paddingBottom:40}}>
 
         {/* Quote */}

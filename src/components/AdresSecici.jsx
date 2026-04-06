@@ -1,54 +1,34 @@
 /**
  * @file components/AdresSecici.jsx
- * @description İl/İlçe/Mahalle cascade — imar-durumu.json'dan il/ilçe kaynağı
+ * @description İl/İlçe/Mahalle adres formu — 81 il + 973 ilçe IlIlceSecici kullanır
  */
-import imarDb from '../data/imar-durumu.json';
+import IlIlceSecici from './IlIlceSecici';
 
 export default function AdresSecici({ deger, setDeger }) {
   const d = deger || {};
-  const iller = Object.keys(imarDb);
-  const ilceler = d.il ? Object.keys(imarDb[d.il] || {}) : [];
 
-  const set = (k) => (e) => {
-    const v = e.target.value;
-    if (k === 'il') setDeger({ ...d, il: v, ilce: '' });
-    else setDeger({ ...d, [k]: v });
-  };
+  const konumDegis = ({ il, ilce }) => setDeger({ ...d, il, ilce });
+  const setField = (k) => (e) => setDeger({ ...d, [k]: e.target.value });
 
   return (
     <div>
-      <div className="fgrid2">
-        <div className="fgroup">
-          <label className="flbl">İl</label>
-          <select className="select" value={d.il || ''} onChange={set('il')}>
-            <option value="">— Seçiniz —</option>
-            {iller.map(il => <option key={il} value={il}>{il}</option>)}
-          </select>
-        </div>
-        <div className="fgroup">
-          <label className="flbl">İlçe</label>
-          <select className="select" value={d.ilce || ''} onChange={set('ilce')} disabled={!d.il}>
-            <option value="">— Seçiniz —</option>
-            {ilceler.map(il => <option key={il} value={il}>{il}</option>)}
-          </select>
-        </div>
-      </div>
+      <IlIlceSecici il={d.il} ilce={d.ilce} onChange={konumDegis} />
       <div className="fgrid2">
         <div className="fgroup">
           <label className="flbl">Mahalle</label>
-          <input className="input" value={d.mahalle || ''} onChange={set('mahalle')} />
+          <input className="input" value={d.mahalle || ''} onChange={setField('mahalle')} />
         </div>
         <div className="fgroup">
           <label className="flbl">Ada / Parsel</label>
           <div style={{ display: 'flex', gap: 6 }}>
-            <input className="input" value={d.ada || ''} onChange={set('ada')} placeholder="Ada" />
-            <input className="input" value={d.parsel || ''} onChange={set('parsel')} placeholder="Parsel" />
+            <input className="input" value={d.ada || ''} onChange={setField('ada')} placeholder="Ada" />
+            <input className="input" value={d.parsel || ''} onChange={setField('parsel')} placeholder="Parsel" />
           </div>
         </div>
       </div>
       <div className="fgroup">
         <label className="flbl">Açık Adres</label>
-        <input className="input" value={d.fullAdres || ''} onChange={set('fullAdres')} placeholder="Sokak, kapı no, daire no" />
+        <input className="input" value={d.fullAdres || ''} onChange={setField('fullAdres')} placeholder="Sokak, kapı no, daire no" />
       </div>
       <div className="fgrid2">
         <div className="fgroup">

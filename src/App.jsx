@@ -26,6 +26,7 @@ import { registerServiceWorker } from './core/swRegister';
 import { otomatikYedekKontrol } from './core/yedek';
 import { bildirimOlustur } from './core/bildirimlerDb';
 import { tumKiralarIcinOtomatikUret } from './core/kiraHesap';
+import { piyasaOtomatikBaslat } from './core/marketData';
 import { Sidebar, Toasts, Modal } from './components/Layout';
 import StatusBar from './components/StatusBar';
 import CommandPalette from './components/CommandPalette';
@@ -87,6 +88,12 @@ function AppInner() {
 
   /* Service worker + PWA */
   useEffect(() => { registerServiceWorker(); }, []);
+
+  /* Canlı piyasa verisi — 2dk auto-refresh (user login'den bağımsız başlat) */
+  useEffect(() => {
+    const id = piyasaOtomatikBaslat();
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => { authInit(); }, []);
   useEffect(() => {

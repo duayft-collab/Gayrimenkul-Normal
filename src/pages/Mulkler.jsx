@@ -11,7 +11,7 @@ import MulkGaleri from '../components/MulkGaleri';
 import PaylasimModal from '../components/PaylasimModal';
 import ExportMenu from '../components/ExportMenu';
 import AdresSecici from '../components/AdresSecici';
-import imarDb from '../data/imar-durumu.json';
+import { tumIller } from '../core/konum';
 
 const TURLER = ['daire', 'villa', 'arsa', 'tarla', 'isyeri', 'dukkan'];
 const DURUMLAR = ['sahip', 'satilik', 'satildi', 'kiralik', 'kirada'];
@@ -51,7 +51,7 @@ export default function Mulkler() {
 
   useEffect(() => { queryYaz(filtre); }, [filtre]);
 
-  const ilceler = filtre.il ? Object.keys(imarDb[filtre.il] || {}) : [];
+  const illerListe = tumIller();
 
   const aktifMulkler = useMemo(() => (mulkler || []).filter(m => !m.isDeleted), [mulkler]);
 
@@ -166,7 +166,7 @@ export default function Mulkler() {
               <label className="flbl">İl</label>
               <select className="select" value={filtre.il} onChange={e => setFiltre({ ...filtre, il: e.target.value })}>
                 <option value="">Tümü</option>
-                {Object.keys(imarDb).map(il => <option key={il} value={il}>{il}</option>)}
+                {illerListe.map(il => <option key={il} value={il}>{il}</option>)}
               </select>
             </div>
             <div className="fgroup" style={{ marginBottom: 0 }}>

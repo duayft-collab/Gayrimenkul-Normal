@@ -2,12 +2,12 @@
  * @file components/katkarsiligi/ParselFormu.jsx
  * @description Çoklu parsel girişi — il/ilçe cascade, tevhit/ifraz
  */
-import imarDb from '../../data/imar-durumu.json';
+import { tumIller, ilceleriGetir } from '../../core/konum';
 
 const BOS_PARSEL = { il: '', ilce: '', mahalle: '', ada: '', parsel: '', alan: 0, tapuNo: '', cins: 'Arsa' };
 
 export default function ParselFormu({ parseller, setParseller, tevhit, setTevhit }) {
-  const iller = Object.keys(imarDb);
+  const iller = tumIller();
 
   const guncelle = (i, key, val) => {
     const yeni = [...parseller];
@@ -37,7 +37,7 @@ export default function ParselFormu({ parseller, setParseller, tevhit, setTevhit
       </div>
 
       {parseller.map((p, i) => {
-        const ilceler = p.il ? Object.keys(imarDb[p.il] || {}) : [];
+        const ilceler = p.il ? ilceleriGetir(p.il) : [];
         return (
           <div key={i} style={{
             border: '1px solid var(--border)', borderRadius: 8, padding: 12, marginBottom: 10,

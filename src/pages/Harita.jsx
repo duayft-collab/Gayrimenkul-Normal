@@ -5,7 +5,7 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { useStore } from '../store/app';
 import { Topbar } from '../components/Layout';
-import imarDb from '../data/imar-durumu.json';
+import { tumIller } from '../core/konum';
 
 const IL_COORD = {
   'İstanbul': [41.0082, 28.9784],
@@ -128,7 +128,7 @@ export default function Harita() {
         <div className="card" style={{ marginBottom: 14, display: 'flex', gap: 10, alignItems: 'center' }}>
           <select className="select" value={filtreIl} onChange={e => setFiltreIl(e.target.value)} style={{ width: 180 }}>
             <option value="">Tüm İller</option>
-            {Object.keys(imarDb).map(il => <option key={il} value={il}>{il}</option>)}
+            {tumIller().map(il => <option key={il} value={il}>{il}</option>)}
           </select>
           <select className="select" value={filtreDurum} onChange={e => setFiltreDurum(e.target.value)} style={{ width: 180 }}>
             <option value="">Tüm Durumlar</option>

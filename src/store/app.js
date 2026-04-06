@@ -161,8 +161,9 @@ export const useStore = create((set, get) => ({
 
   aktifMulkler: () => get().mulkler.filter(p => !p.isDeleted),
 
-  /* Piyasa (statik, ileriki sprint'te API'den gelir) */
+  /* Piyasa — marketData.js her 2dk'da bir günceller */
   marketData: { usdTry:38.42, eurTry:41.85, goldGram:3850, btcTry:342000, bist100:9840, inflation:48.5 },
+  setMarketData: (data) => set({ marketData: { ...get().marketData, ...data } }),
 
   /* Firestore stats — StatusBar için canlı */
   firestoreStats: { ...BOS_STATS },
