@@ -19,6 +19,8 @@ import Kiralar from './pages/Kiralar';
 import Odemeler from './pages/Odemeler';
 import Raporlar from './pages/Raporlar';
 import Karsilastirma from './pages/Karsilastirma';
+import TapuToplama from './pages/TapuToplama';
+import TapuToplamaForm from './pages/TapuToplamaForm';
 import IslemGecmisi from './pages/IslemGecmisi';
 import Yedekler from './pages/Yedekler';
 import Guvenlik from './pages/Guvenlik';
@@ -54,6 +56,7 @@ const PAGES = {
   odemeler:     Odemeler,
   raporlar:     Raporlar,
   karsilastirma: Karsilastirma,
+  tapuToplama:  TapuToplama,
   guvenlik:     Guvenlik,
   yedekler:     Yedekler,
   islemGecmisi: IslemGecmisi,
@@ -78,7 +81,14 @@ const PAGES = {
 };
 
 export default function App() {
-  /* Public paylaşım route — hooks'tan ÖNCE, tüm lifecycle bypass edilir */
+  /* Public route'lar — hooks'tan ÖNCE, tüm lifecycle bypass edilir */
+  // 1) Tapu toplama formu: #/tapu-form/TOKEN
+  const hash = (window.location.hash || '').replace(/^#/, '');
+  if (hash.startsWith('/tapu-form/')) {
+    const tapuToken = hash.replace('/tapu-form/', '').split('?')[0];
+    return <TapuToplamaForm token={tapuToken} />;
+  }
+  // 2) Paylaşım görüntüleme: ?share=TOKEN
   const shareToken = new URLSearchParams(window.location.search).get('share');
   if (shareToken) return <PaylasimGoruntule token={shareToken} />;
   return <AppInner />;
