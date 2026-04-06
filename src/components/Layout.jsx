@@ -5,6 +5,7 @@ import BildirimMerkezi from './BildirimMerkezi';
 const NAV = [
   { section: 'ANA', items: [
     { id:'dashboard', label:'Dashboard', icon:'🏠' },
+    { id:'karsilastirma', label:'Karşılaştırma', icon:'📈' },
     { id:'raporlar', label:'Raporlar', icon:'📊' },
     { id:'portfolio', label:'Mülkler', icon:'📋' },
     { id:'harita', label:'Harita', icon:'🗺️' },

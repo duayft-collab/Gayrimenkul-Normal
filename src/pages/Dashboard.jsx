@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useStore } from '../store/app';
 import { Topbar } from '../components/Layout';
 import MarketTicker from '../components/MarketTicker';
+import KarsilastirmaWidget from '../components/KarsilastirmaWidget';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
 import { seedTestData } from '../core/seedData';
 import { odemeTlKurus, gecikmisFiltre, yaklasanFiltre } from '../core/odemelerDb';
@@ -88,6 +89,8 @@ export default function Dashboard() {
       <Topbar title="Dashboard" />
       <MarketTicker />
       <div className="page" style={{paddingBottom:40}}>
+
+        <KarsilastirmaWidget />
 
         {/* Quote */}
         <div style={{background:'linear-gradient(90deg,rgba(27,79,138,.15),rgba(201,168,76,.08))',

@@ -11,6 +11,8 @@
  */
 
 import { useStore } from '../store/app';
+import { useAuthStore } from '../store/auth';
+import { gunlukSnapshotKaydet } from './marketGecmis';
 
 const CACHE_KEY = 'marketCache_v1';
 const REFRESH_MS = 2 * 60 * 1000; // 2 dakika
@@ -171,6 +173,12 @@ export async function piyasaVerisiCek() {
 
   cacheYaz(marketState);
   storeYaz(marketState);
+
+  // Günlük Firestore snapshot (idempotent — günde 1)
+  try {
+    const ws = useAuthStore.getState()?.user?.workspaceId;
+    if (ws) await gunlukSnapshotKaydet(marketState, ws);
+  } catch (e) { /* silent */ }
 
   return { ...marketState };
 }

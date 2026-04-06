@@ -18,6 +18,7 @@ import Kiracilar from './pages/Kiracilar';
 import Kiralar from './pages/Kiralar';
 import Odemeler from './pages/Odemeler';
 import Raporlar from './pages/Raporlar';
+import Karsilastirma from './pages/Karsilastirma';
 import IslemGecmisi from './pages/IslemGecmisi';
 import Yedekler from './pages/Yedekler';
 import Guvenlik from './pages/Guvenlik';
@@ -26,7 +27,8 @@ import { registerServiceWorker } from './core/swRegister';
 import { otomatikYedekKontrol } from './core/yedek';
 import { bildirimOlustur } from './core/bildirimlerDb';
 import { tumKiralarIcinOtomatikUret } from './core/kiraHesap';
-import { piyasaOtomatikBaslat } from './core/marketData';
+import { piyasaOtomatikBaslat, marketState } from './core/marketData';
+import { marketBootstrap } from './core/marketBootstrap';
 import { Sidebar, Toasts, Modal } from './components/Layout';
 import StatusBar from './components/StatusBar';
 import CommandPalette from './components/CommandPalette';
@@ -51,6 +53,7 @@ const PAGES = {
   kiracilar:    Kiracilar,
   odemeler:     Odemeler,
   raporlar:     Raporlar,
+  karsilastirma: Karsilastirma,
   guvenlik:     Guvenlik,
   yedekler:     Yedekler,
   islemGecmisi: IslemGecmisi,
@@ -114,6 +117,17 @@ function AppInner() {
       });
       return () => destroy();
     }
+  }, [user?.workspaceId]);
+
+  /* Market bootstrap — ilk kez açan workspace için 12 ay sentetik tarihsel veri */
+  useEffect(() => {
+    if (!user?.workspaceId) return;
+    const t = setTimeout(() => {
+      marketBootstrap(user.workspaceId, marketState).catch(e =>
+        console.warn('[bootstrap]', e.message)
+      );
+    }, 8000); // Market fetch bitsin, sonra bootstrap
+    return () => clearTimeout(t);
   }, [user?.workspaceId]);
 
   /* Günde 1 kez otomatik kira üretimi — K02: localStorage sadece tarih string */
