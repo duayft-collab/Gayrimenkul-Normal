@@ -9,7 +9,8 @@ import LocationWatch from './pages/LocationWatch';
 import LeaseIntelligence from './pages/LeaseIntelligence';
 import KatKarsiligi from './pages/KatKarsiligi';
 import Anayasa from './pages/Anayasa';
-import { Sidebar, Toasts, Modal, VersionBar } from './components/Layout';
+import { Sidebar, Toasts, Modal } from './components/Layout';
+import StatusBar from './components/StatusBar';
 
 function PlaceholderPage({ title, icon }) {
   return (
@@ -70,12 +71,12 @@ export default function App() {
   return (
     <div className="layout">
       <Sidebar />
-      <div className="main" style={{paddingBottom:28}}>
+      <div className="main" style={{paddingBottom:80}}>
         <PageComp />
       </div>
       <Toasts />
       <Modal />
-      <VersionBar />
+      <StatusBar />
     </div>
   );
 }
