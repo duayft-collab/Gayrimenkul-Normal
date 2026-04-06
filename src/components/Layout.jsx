@@ -25,7 +25,7 @@ const NAV = [
     { id:'odemeler', label:'Ödemeler', icon:'💰' },
     { id:'tapuToplama', label:'Tapu Toplama', icon:'📎' },
     { id:'lease', label:'Sözleşme Zekası', icon:'📄' },
-    { id:'calculators', label:'Hesap Makineleri', icon:'🧮' },
+    { id:'hesapMakineleri', label:'Hesap Makineleri', icon:'🧮' },
     { id:'tax', label:'Vergi Hesaplama', icon:'⚖️' },
   ]},
   { section: 'BİLGİ & ARAÇLAR', items: [

@@ -22,6 +22,7 @@ import Karsilastirma from './pages/Karsilastirma';
 import TapuToplama from './pages/TapuToplama';
 import TapuToplamaForm from './pages/TapuToplamaForm';
 import KiraciPortal from './pages/KiraciPortal';
+import HesapMakineleri from './pages/HesapMakineleri';
 import IslemGecmisi from './pages/IslemGecmisi';
 import Yedekler from './pages/Yedekler';
 import Guvenlik from './pages/Guvenlik';
@@ -58,6 +59,8 @@ const PAGES = {
   raporlar:     Raporlar,
   karsilastirma: Karsilastirma,
   tapuToplama:  TapuToplama,
+  hesapMakineleri: HesapMakineleri,
+  calculators:  HesapMakineleri,
   guvenlik:     Guvenlik,
   yedekler:     Yedekler,
   islemGecmisi: IslemGecmisi,
