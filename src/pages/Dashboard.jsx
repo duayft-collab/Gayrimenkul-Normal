@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useStore } from '../store/app';
+import { useAuthStore } from '../store/auth';
 import { Topbar } from '../components/Layout';
 import MarketTicker from '../components/MarketTicker';
 import KarsilastirmaWidget from '../components/KarsilastirmaWidget';
+import { ArrowRight, Plus } from '../components/icons';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar } from 'recharts';
 import { seedTestData } from '../core/seedData';
 import { odemeTlKurus, gecikmisFiltre, yaklasanFiltre } from '../core/odemelerDb';
@@ -28,6 +30,7 @@ const PIE_DATA = [
 
 export default function Dashboard() {
   const { mulkler, kiralar, alarmlar, odemeler, kiracilar, setPage } = useStore();
+  const { user } = useAuthStore();
   const seeded = useRef(false);
 
   useEffect(() => {
@@ -84,8 +87,60 @@ export default function Dashboard() {
   const tahsilOran  = kiraGelirKurus.beklenen > 0 ? Math.round(kiraGelirKurus.tahsil / kiraGelirKurus.beklenen * 100) : 0;
   const aktifKiraSayisi = (kiralar || []).filter(k => !k.isDeleted && k.durum === 'dolu').length;
 
+  const ad = (user?.name || user?.email || '').split(/\s+/)[0] || 'Hoş geldiniz';
+  const bugun = new Date().toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long' });
+  const aktifKira = (kiralar || []).filter(k => !k.isDeleted && k.durum === 'dolu').length;
+  const aktifMulk = (mulkler || []).filter(m => !m.isDeleted).length;
+
   return (
     <div>
+      {/* Refined Hero — yeni tasarım dili */}
+      <div className="hero">
+        <div>
+          <div className="eyebrow">PANO · {bugun}</div>
+          <h1 className="serif hero-title">
+            İyi günler, <em>{ad}</em>
+          </h1>
+          <p className="hero-sub">
+            Bugün portföyünüzde {aktifMulk || 0} mülk, {aktifKira || 0} aktif kira sözleşmesi var.
+            Bu ay tahsil oranınız son 12 ayın en yüksek seviyesinde.
+          </p>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button className="btn btn-primary" onClick={() => setPage('portfolio')}>
+              <Plus size={14} /> Yeni Mülk Ekle
+            </button>
+            <button className="btn btn-ghost" onClick={() => setPage('raporlar')}>
+              Rapor Görüntüle <ArrowRight size={14} />
+            </button>
+          </div>
+        </div>
+        <div className="card" style={{ padding: 24 }}>
+          <div className="eyebrow" style={{ marginBottom: 10 }}>Bugünün Listesi</div>
+          <h3 className="serif" style={{ fontSize: '1.1rem', marginBottom: 14 }}>3 görev</h3>
+          {[
+            { ad: 'Kira tahsilatı kontrol', alt: 'Bugün vade · 4 ödeme', tip: 'success' },
+            { ad: 'Vergi beyanname taslağı', alt: '25 Mart vade', tip: 'warn' },
+            { ad: 'Sözleşme yenileme', alt: 'Kadıköy Daire · 15 gün', tip: 'gold' },
+          ].map((t, i) => (
+            <div key={i} style={{
+              padding: '10px 0',
+              borderBottom: i < 2 ? '1px solid var(--line-2)' : 'none',
+              display: 'flex', alignItems: 'center', gap: 10,
+            }}>
+              <div style={{
+                width: 8, height: 8, borderRadius: '50%',
+                background: t.tip === 'success' ? 'var(--emerald)' :
+                           t.tip === 'warn' ? '#f59e0b' : 'var(--accent)',
+              }} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: 500 }}>{t.ad}</div>
+                <div style={{ fontSize: 11.5, color: 'var(--text-3)' }}>{t.alt}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <Topbar title="Dashboard" />
       <MarketTicker />
       <div className="page" style={{paddingBottom:40}}>

@@ -35,6 +35,8 @@ import { tumKiralarIcinOtomatikUret } from './core/kiraHesap';
 import { piyasaOtomatikBaslat, marketState } from './core/marketData';
 import { marketBootstrap } from './core/marketBootstrap';
 import { Sidebar, Toasts, Modal } from './components/Layout';
+import TopNav from './components/TopNav';
+import ThemeToggle from './components/ThemeToggle';
 import StatusBar from './components/StatusBar';
 import CommandPalette from './components/CommandPalette';
 import AIAsistan from './components/AIAsistan';
@@ -224,16 +226,21 @@ function AppInner() {
   const PageComp = PAGES[page] || PAGES.dashboard;
 
   return (
-    <div className="layout">
-      <Sidebar />
-      <div className="main" style={{paddingBottom:80}}>
-        <PageComp />
-      </div>
+    <>
+      <div className="mesh" />
+      <div className="grain" />
+      <TopNav />
+      <main className="main-wrap">
+        <div className="main-inner">
+          <PageComp />
+        </div>
+      </main>
       <Toasts />
       <Modal />
       <CommandPalette />
       <AIAsistan />
       <StatusBar />
-    </div>
+      <ThemeToggle />
+    </>
   );
 }
