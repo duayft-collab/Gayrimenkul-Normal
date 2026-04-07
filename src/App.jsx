@@ -42,6 +42,7 @@ import ModDegistirButon from './components/ModDegistirButon';
 import ModSecimi from './pages/ModSecimi';
 import { useMod } from './core/modStore';
 import { useTema } from './core/temaStore';
+import { isAdmin } from './components/RequireAdmin';
 import StatusBar from './components/StatusBar';
 import CommandPalette from './components/CommandPalette';
 import AIAsistan from './components/AIAsistan';
@@ -117,18 +118,22 @@ function AppInner() {
   const { page, init, destroy, undo } = store;
   const mod = useMod(s => s.mod);
 
+  /* Efektif mod — admin değilse otomatik 'yeni'; mod kayıtlıysa onu kullan */
+  const efektifMod = mod || (isAdmin(user) ? null : 'yeni');
+
   /* Service worker + PWA */
   useEffect(() => { registerServiceWorker(); }, []);
 
-  /* Yeni modda tokens.css dinamik yükle (idempotent) */
+  /* Yeni modda tokens.css dinamik yükle (idempotent)
+     efektifMod kullanılır → non-admin'de mod=null bile olsa fire eder */
   useEffect(() => {
-    if (mod === 'yeni' && !window.__refinedYuklendi) {
+    if (efektifMod === 'yeni' && !window.__refinedYuklendi) {
       import('./styles/tokens.css').then(() => {
         window.__refinedYuklendi = true;
-        useTema.getState().baslat();
-      });
+        try { useTema.getState().baslat(); } catch {}
+      }).catch(e => console.warn('[tokens.css load]', e?.message));
     }
-  }, [mod]);
+  }, [efektifMod]);
 
   /* Canlı piyasa verisi — 2dk auto-refresh (user login'den bağımsız başlat) */
   useEffect(() => {
@@ -241,10 +246,10 @@ function AppInner() {
   if (!user) return <Login />;
 
   /* ═══ Çift-mod kontrol ═══
+   * efektifMod yukarıda hesaplandı (hooks deps için).
    * - Admin: mod yoksa ModSecimi seçim ekranı
    * - Non-admin: otomatik 'yeni' moda zorlanır, seçim ekranı görünmez
    */
-  const efektifMod = mod || (isAdmin(user) ? null : 'yeni');
   if (!efektifMod) return <ModSecimi />;
 
   const PageComp = PAGES[page] || PAGES.dashboard;
