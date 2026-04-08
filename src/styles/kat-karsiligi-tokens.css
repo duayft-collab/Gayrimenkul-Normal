@@ -1,0 +1,264 @@
+/* ═══════════════════════════════════════════════════════════════
+ * Kat Karşılığı · Design Tokens (izole)
+ * Sadece [data-kk-module] altında etkili, global CSS'i etkilemez.
+ * ═══════════════════════════════════════════════════════════════ */
+
+/* Light — default */
+[data-kk-module],
+[data-kk-module][data-kk-theme="light"] {
+  --kk-bg:          #fafaf9;
+  --kk-bg-sunk:     #f5f5f4;
+  --kk-card:        #ffffff;
+  --kk-text:        #0f172a;
+  --kk-text-2:      #475569;
+  --kk-text-3:      #94a3b8;
+  --kk-border:      #e2e8f0;
+  --kk-border-soft: #f1f5f9;
+  --kk-accent:      #1e293b;
+  --kk-accent-soft: #f1f5f9;
+
+  --kk-green:       #10b981;
+  --kk-green-soft:  #ecfdf5;
+  --kk-amber:       #f59e0b;
+  --kk-amber-soft:  #fffbeb;
+  --kk-red:         #ef4444;
+  --kk-red-soft:    #fef2f2;
+
+  --kk-shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.04);
+  --kk-shadow:      0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.03);
+
+  --kk-radius-card: 12px;
+  --kk-radius-btn:  8px;
+  --kk-radius-pill: 999px;
+
+  --kk-font: 'Inter', -apple-system, system-ui, sans-serif;
+  --kk-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Dark — override */
+[data-kk-module][data-kk-theme="dark"] {
+  --kk-bg:          #0a0a0f;
+  --kk-bg-sunk:     #050508;
+  --kk-card:        #14141b;
+  --kk-text:        #e2e8f0;
+  --kk-text-2:      #94a3b8;
+  --kk-text-3:      #64748b;
+  --kk-border:      rgba(255, 255, 255, 0.08);
+  --kk-border-soft: rgba(255, 255, 255, 0.04);
+  --kk-accent:      #e2e8f0;
+  --kk-accent-soft: rgba(226, 232, 240, 0.08);
+
+  --kk-green-soft:  rgba(16, 185, 129, 0.12);
+  --kk-amber-soft:  rgba(245, 158, 11, 0.12);
+  --kk-red-soft:    rgba(239, 68, 68, 0.12);
+
+  --kk-shadow-sm:   0 1px 2px rgba(0, 0, 0, 0.3);
+  --kk-shadow:      0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ═══ Base wrapper ═══ */
+[data-kk-module] {
+  background: var(--kk-bg);
+  color: var(--kk-text);
+  font-family: var(--kk-font);
+  font-feature-settings: 'cv11', 'ss01';
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+[data-kk-module] * {
+  box-sizing: border-box;
+}
+
+[data-kk-module] .kk-num,
+[data-kk-module] .kk-mono {
+  font-variant-numeric: tabular-nums;
+  font-family: var(--kk-font-mono);
+}
+
+/* ═══ Container ═══ */
+[data-kk-module] .kk-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 64px;
+}
+@media (min-width: 768px) {
+  [data-kk-module] .kk-container { padding: 32px 32px 80px; }
+}
+
+/* ═══ Header ═══ */
+[data-kk-module] .kk-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(250, 250, 249, 0.85);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--kk-border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+[data-kk-module][data-kk-theme="dark"] .kk-header {
+  background: rgba(10, 10, 15, 0.85);
+}
+
+[data-kk-module] .kk-header-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--kk-text);
+  letter-spacing: -0.01em;
+}
+
+[data-kk-module] .kk-header-search {
+  flex: 1;
+  max-width: 320px;
+  padding: 8px 12px;
+  background: var(--kk-bg-sunk);
+  border: 1px solid var(--kk-border);
+  border-radius: var(--kk-radius-btn);
+  font-size: 13px;
+  color: var(--kk-text);
+  font-family: inherit;
+}
+[data-kk-module] .kk-header-search:focus {
+  outline: none;
+  border-color: var(--kk-accent);
+}
+
+/* ═══ Theme toggle button ═══ */
+[data-kk-module] .kk-theme-toggle {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  background: var(--kk-card);
+  border: 1px solid var(--kk-border);
+  border-radius: var(--kk-radius-btn);
+  color: var(--kk-text);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+[data-kk-module] .kk-theme-toggle:hover {
+  border-color: var(--kk-text-2);
+}
+[data-kk-module] .kk-theme-toggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ═══ Card section (temel blok) ═══ */
+[data-kk-module] .kk-card {
+  background: var(--kk-card);
+  border: 1px solid var(--kk-border);
+  border-radius: var(--kk-radius-card);
+  padding: 20px;
+  box-shadow: var(--kk-shadow-sm);
+}
+@media (min-width: 768px) {
+  [data-kk-module] .kk-card { padding: 24px; }
+}
+
+[data-kk-module] .kk-card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--kk-text-2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 16px;
+}
+
+/* ═══ Buttons ═══ */
+[data-kk-module] .kk-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: inherit;
+  border-radius: var(--kk-radius-btn);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+[data-kk-module] .kk-btn-primary {
+  background: var(--kk-accent);
+  color: var(--kk-card);
+  border-color: var(--kk-accent);
+}
+[data-kk-module] .kk-btn-primary:hover {
+  opacity: 0.9;
+}
+[data-kk-module] .kk-btn-ghost {
+  background: var(--kk-card);
+  color: var(--kk-text);
+  border-color: var(--kk-border);
+}
+[data-kk-module] .kk-btn-ghost:hover {
+  border-color: var(--kk-text-2);
+}
+
+/* ═══ Badges (durum rozetleri) ═══ */
+[data-kk-module] .kk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--kk-radius-pill);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+[data-kk-module] .kk-badge-green {
+  background: var(--kk-green-soft);
+  color: var(--kk-green);
+}
+[data-kk-module] .kk-badge-amber {
+  background: var(--kk-amber-soft);
+  color: #d97706;
+}
+[data-kk-module] .kk-badge-red {
+  background: var(--kk-red-soft);
+  color: var(--kk-red);
+}
+
+/* ═══ Grid ═══ */
+[data-kk-module] .kk-grid {
+  display: grid;
+  gap: 16px;
+}
+@media (min-width: 768px) {
+  [data-kk-module] .kk-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  [data-kk-module] .kk-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  [data-kk-module] .kk-grid-12 { grid-template-columns: repeat(12, 1fr); }
+}
+
+/* ═══ Typography ═══ */
+[data-kk-module] h1.kk-h1 {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--kk-text);
+  margin: 0 0 8px;
+}
+@media (min-width: 768px) {
+  [data-kk-module] h1.kk-h1 { font-size: 34px; }
+}
+
+[data-kk-module] .kk-sub {
+  font-size: 14px;
+  color: var(--kk-text-2);
+  line-height: 1.5;
+}
+
+[data-kk-module] .kk-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--kk-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
